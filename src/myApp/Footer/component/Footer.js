@@ -16,7 +16,8 @@ import { AiOutlineStepBackward, AiOutlineStepForward ,AiOutlinePause, AiFillCare
 
 
 const Footer=(props)=>{
-  var volumes=localStorage.getItem('volume');
+  var volumes=localStorage.getItem('volume')?localStorage.getItem('volume'):1;
+
   const [volume, setVolume] = useState(volumes);
   const [muted, setMuted] = useState(false)
   const finalVolume = muted ? 0 : volume ** 2;
