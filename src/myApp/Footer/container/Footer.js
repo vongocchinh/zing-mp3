@@ -45,17 +45,29 @@ const Footer=(props)=>{
       }
       setProgess(0);
       audio.onloadstart=()=>{
+        setTime((audio.duration/60).toFixed(2));
+        setProgess(audio.currentTime/audio.duration*100)
         setProgess(0);
       }
      }
       
     },[Footer.url])
 
-
     useEffect(()=>{
       setPlaying(Footer.playing);
+     
     },[Footer.playing]);
     
+    useEffect(()=>{
+      var audio = document.getElementById("audio");
+      if(playing){
+        audio.ontimeupdate=()=>{
+        setTime((audio.duration/60).toFixed(2));
+        setProgess(audio.currentTime/audio.duration*100)
+      }
+    }
+    },[playing])
+
     useEffect(async() =>{
       props.GET_ALL_MUSIC();
     },[1])
@@ -72,7 +84,15 @@ const Footer=(props)=>{
       var audio = document.getElementById("audio");
       audio.play()
       setStartMusic(true);
+      if(startApp){
+       audio.ontimeupdate=()=>{
+        setTime((audio.duration/60).toFixed(2));
+        setProgess(audio.currentTime/audio.duration*100)
+         setTime((audio.duration/60).toFixed(2));
+         setProgess(audio.currentTime/audio.duration*100)
+       }
     }
+  }
 
     const musicPause=()=>{
       var audio = document.getElementById("audio");
