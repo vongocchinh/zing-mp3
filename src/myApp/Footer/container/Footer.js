@@ -10,6 +10,8 @@ const Footer=(props)=>{
     const {Footer}=props;
     
     const [playing, setPlaying] = useState(false);
+    const [loop, setLoop] = useState(false);
+    const [progess, setProgess] = useState(0);
     const [arrUrl,setArrUrl]=useState([{
       id:1
     }]);
@@ -34,20 +36,36 @@ const Footer=(props)=>{
     }
     useMemo(()=>{
       var audio = document.getElementById("audio");
-      if(playing){
-        setTime((audio.duration/60).toFixed(2));
+     if(playing){
+      audio.ontimeupdate=()=>{
+        if(playing){
+          setTime((audio.duration/60).toFixed(2));
+          
+        }
+
       }
+      setProgess(0);
+      audio.onloadstart=()=>{
+        setProgess(0);
+      }
+     }
+      
     },[Footer.url])
 
 
     useEffect(()=>{
+      var audio = document.getElementById("audio");
+      audio.ontimeupdate=()=>{
+        
+        setProgess(audio.currentTime/audio.duration*100)
+      }
       setPlaying(Footer.playing);
     },[Footer.playing]);
     
     useEffect(async() =>{
       props.GET_ALL_MUSIC();
     },[1])
-
+    
 
 
     useEffect(() => {
@@ -77,11 +95,29 @@ const Footer=(props)=>{
         });
       };
     }, []);
-    // console.log(time);
+    useEffect(()=>{
+      var audio = document.getElementById("audio");
+      audio.loop=loop;
+    },[loop])
+    const onLoop=()=>{
+      setLoop(!loop);      
+    }
+
+    const onChangeProgess=(e)=>{
+      var audio = document.getElementById("audio");
+      audio.ontimeupdate=()=>{
+        
+        var speek=audio.duration/100* e;
+        console.log(speek+""+audio.currentTime);
+        audio.currentTime=speek;
+      }
+
+     
+    }
     return (
         <>
-          <audio  autoPlay={true} id="audio" src={(arrUrl[arrUrl.length-1]).music}></audio>
-          <FooterComponent time={time} onChangeVolume={onChangeVolume} data={Footer.url} onPlay={onPlay} playing={playing} />
+          <audio   autoPlay={true} id="audio" src={(arrUrl[arrUrl.length-1]).music}></audio>
+          <FooterComponent onChangeProgess={onChangeProgess} progess={progess} loopMusic={loop} onLoop={onLoop} time={time} onChangeVolume={onChangeVolume} data={Footer.url} onPlay={onPlay} playing={playing} />
         </>
     )
 }

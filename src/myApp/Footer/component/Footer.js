@@ -13,7 +13,7 @@ import RepeatIcon from '@material-ui/icons/Repeat';
 import ShuffleIcon from '@material-ui/icons/Shuffle';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import { AiOutlineStepBackward, AiOutlineStepForward ,AiOutlinePause, AiFillCaretRight } from 'react-icons/ai';
-
+import RepeatOneIcon from '@material-ui/icons/RepeatOne';
 
 const Footer=(props)=>{
   var volumes=localStorage.getItem('volume')?localStorage.getItem('volume'):1;
@@ -53,6 +53,13 @@ const Footer=(props)=>{
       </>
     }
   }
+  const onLoop=()=>{
+    props.onLoop();
+  }
+
+  const onChangeProgess=(e)=>{
+    props.onChangeProgess(e.target.value);
+  }
     return (
         <>
         <div className="con-footer">
@@ -77,12 +84,12 @@ const Footer=(props)=>{
                   <AiOutlineStepBackward className="ShuffleIcons" />
                   {playing?<AiOutlinePause className="ShuffleIcons" onClick={onPlay} />:<AiFillCaretRight className="ShuffleIcons" onClick={onPlay} />}
                     
-                  <AiOutlineStepForward className="ShuffleIcons" />
-                <RepeatIcon className="ShuffleIcon" />
+                  <AiOutlineStepForward className="ShuffleIcons"  />
+                  {props.loopMusic?<RepeatOneIcon className="ShuffleIcon " style={{color:"#7200A1"}} onClick={onLoop} />:<RepeatIcon className="ShuffleIcon " onClick={onLoop} />}
                 </div>
                 <div className="con-footer-item-2-item">
                    <p className="span1">00.00</p> 
-                  <input id="progress" className="progress" type="range"  step="1" min="0" max="100" />
+                  <input id="progress" className="progress" type="range" onChange={onChangeProgess} value={props.progess?props.progess:0}  step="1" min="0" max="100" />
                   <p className="span2">{props.time?props.time:"00.00"}</p>
                 </div>
             </div>

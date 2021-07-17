@@ -25,7 +25,7 @@ const Item=(props)=>{
                     </div>
                 </div>
                 <div className="con-vn-right-item-music-time">
-                    <span>03:51</span>
+                    <span>chưa cập nhật</span>
                 </div>
             </div>
 
