@@ -12,6 +12,8 @@ const Footer=(props)=>{
     const [playing, setPlaying] = useState(false);
     const [loop, setLoop] = useState(false);
     const [progess, setProgess] = useState(0);
+
+    const [startApp,setStartMusic]=useState(false);
     const [arrUrl,setArrUrl]=useState([{
       id:1
     }]);
@@ -36,13 +38,10 @@ const Footer=(props)=>{
     }
     useMemo(()=>{
       var audio = document.getElementById("audio");
-     if(playing){
+     if(startApp){
       audio.ontimeupdate=()=>{
-        if(playing){
-          setTime((audio.duration/60).toFixed(2));
-          
-        }
-
+        setTime((audio.duration/60).toFixed(2));
+        setProgess(audio.currentTime/audio.duration*100)
       }
       setProgess(0);
       audio.onloadstart=()=>{
@@ -54,11 +53,6 @@ const Footer=(props)=>{
 
 
     useEffect(()=>{
-      var audio = document.getElementById("audio");
-      audio.ontimeupdate=()=>{
-        
-        setProgess(audio.currentTime/audio.duration*100)
-      }
       setPlaying(Footer.playing);
     },[Footer.playing]);
     
@@ -68,13 +62,23 @@ const Footer=(props)=>{
     
 
 
-    useEffect(() => {
-      var audio = document.getElementById("audio");
-      
-        playing ? audio.play() : audio.pause();
+    useEffect(() => {      
+        playing ? musicPlay() : musicPause();
       },
       [playing]
     );
+
+    const musicPlay=()=>{
+      var audio = document.getElementById("audio");
+      audio.play()
+      setStartMusic(true);
+    }
+
+    const musicPause=()=>{
+      var audio = document.getElementById("audio");
+      audio.pause()
+      setStartMusic(false);
+    }
     window.onbeforeunload=function(){
         if(playing){
             return "Are you sure to leave this page?";
