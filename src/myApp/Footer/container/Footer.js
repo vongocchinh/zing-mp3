@@ -211,19 +211,22 @@ const Footer=(props)=>{
     }
 
     const preMusic=()=>{
-      var audio = document.getElementById("audio");
-      var i=vtPlay;
-      i--;
-      if(i<0){
-        i=arrUrl.length-1;
+      if(arrUrl.length>0){
+        var audio = document.getElementById("audio");
+        var i=vtPlay;
+        i--;
+        if(i<0){
+          i=arrUrl.length-1;
+        }
+        setVTPlay(i);
+        showData();
+        props.onPlaying();
+        audio.load();
+        musicPlay();
       }
-      setVTPlay(i);
-      showData();
-      props.onPlaying();
-      audio.load();
-      musicPlay();
     }
     const nextMusic=()=>{
+     if(arrUrl.length>0){
       var audio = document.getElementById("audio");
       var i=vtPlay;
 
@@ -236,6 +239,7 @@ const Footer=(props)=>{
       props.onPlaying();
       audio.load();
       musicPlay();
+     }
     }
     const onStop=()=>{
       props.onStop();
