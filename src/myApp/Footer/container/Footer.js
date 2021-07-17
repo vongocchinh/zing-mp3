@@ -4,29 +4,51 @@ import React ,{useState,useEffect, useMemo} from 'react';
 import { connect } from 'react-redux';
 import FooterComponent from './../component/Footer';
 import * as action from './../actions/Footer';
-
-
+import DialogContent from '@material-ui/core/DialogContent';
+import Dialog from '@material-ui/core/Dialog';
 const Footer=(props)=>{
     const {Footer}=props;
     
     const [playing, setPlaying] = useState(false);
-    const [loop, setLoop] = useState(false);
+    const [loopMusic, setLoopMusic] = useState(false);
     const [progess, setProgess] = useState(0);
 
     const [startApp,setStartMusic]=useState(false);
-    const [arrUrl,setArrUrl]=useState([{
-      id:1
-    }]);
+    const [arrUrl,setArrUrl]=useState([]);
    
+    const [vtPlay,setVTPlay]=useState(-1);
+    const [openKara, setOpenKara] = React.useState(false);
+
+    const [randomMusic,setRandom]=useState(false);
+
+
+    useMemo(()=>{
+      var indexPlayState=arrUrl.length>0?arrUrl.length-1:-1;
+      setVTPlay(indexPlayState)
+    },[arrUrl.length])
+    const handleClickOpen = () => {
+      setOpenKara(true);
+    };
+  
+    const handleClose = () => {
+      setOpenKara(false);
+    };
+
+    const getIndex=(i)=>{
+     const result=arrUrl.find((value,key)=>key===i);
+     return result;
+    }
+ 
     const [time,setTime]=useState(0);
     useMemo(()=>{
-      setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
-      
+      if(Footer.url&&Footer.url!==null){
+        setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
+      }
     },[Footer.url])
 
 
     const onPlay=()=>{
-       if(arrUrl[arrUrl.length-1].music){
+       if(arrUrl.length>0){
         props.onPlaying();
        }else{
        }
@@ -65,12 +87,10 @@ const Footer=(props)=>{
         setTime((audio.duration/60).toFixed(2));
         setProgess(audio.currentTime/audio.duration*100)
       }
+      
     }
     },[playing])
 
-    useEffect(async() =>{
-      props.GET_ALL_MUSIC();
-    },[1])
     
 
 
@@ -83,6 +103,7 @@ const Footer=(props)=>{
     const musicPlay=()=>{
       var audio = document.getElementById("audio");
       audio.play()
+      setPlaying(true);
       setStartMusic(true);
       if(startApp){
        audio.ontimeupdate=()=>{
@@ -99,49 +120,140 @@ const Footer=(props)=>{
       audio.pause()
       setStartMusic(false);
     }
+
     window.onbeforeunload=function(){
         if(playing){
             return "Are you sure to leave this page?";
         }
     }
+
+
+
+    // const getIndexRadom=()=>{
+    //   let newIndex;
+    //   let i=vtPlay;
+    //   do {
+    //     newIndex = Math.floor(Math.random() * arrUrl.length);
+    //     if(newIndex !== i){
+    //         return newIndex;
+    //     }
+    //   } while (true);
+    // }
+    const randomMusics=()=>{
+      setRandom(!randomMusic);
+    }
+
+
+
+    const NextMusic=()=>{
+      console.log(randomMusic);
+      // var audio = document.getElementById("audio");
+      var index=vtPlay;
+          index++;
+          if(index>arrUrl.length-1){
+            index=0;
+          }
+          setVTPlay(index);
+          show();
+          props.onPlaying();
+          musicPlay();
+    }
+   
     useEffect(() => {
       var audio = document.getElementById("audio");
       audio.addEventListener('ended', () => {
         props.stopRorate();
-        setPlaying(false)
+        props.Stop_PLAYING();
+        NextMusic();
       });
-      
-      return () => {
-        
-        audio.removeEventListener('ended', () => {
-          props.stopRorate();
-          setPlaying(false)
-        });
-      };
     }, []);
+
+
     useEffect(()=>{
       var audio = document.getElementById("audio");
-      audio.loop=loop;
-    },[loop])
-    const onLoop=()=>{
-      setLoop(!loop);      
+      audio.loop=loopMusic;
+    },[loopMusic])
+
+
+    const onLoopMusic=()=>{
+      setLoopMusic(!loopMusic);      
     }
 
     const onChangeProgess=(e)=>{
       var audio = document.getElementById("audio");
       audio.ontimeupdate=()=>{
-        
         var speek=audio.duration/100* e;
-        console.log(speek+""+audio.currentTime);
         audio.currentTime=speek;
       }
 
      
     }
+
+
+    
+    
+
+    const show=()=>{
+      if(vtPlay!==-1){
+        if(getIndex(vtPlay)){
+          return getIndex(vtPlay).music;
+        }
+      }
+    }
+    const showData=()=>{
+      if(vtPlay!==-1){
+        if(getIndex(vtPlay)){
+          return getIndex(vtPlay);
+        }
+      }
+    }
+
+    const preMusic=()=>{
+      var i=vtPlay;
+      i--;
+      if(i<0){
+        i=arrUrl.length-1;
+      }
+      setVTPlay(i);
+      showData();
+      props.onPlaying();
+      musicPlay();
+    }
+    const nextMusic=()=>{
+      var i=vtPlay;
+      i++;
+      if(i>arrUrl.length-1){
+        i=0;
+      }
+      setVTPlay(i);
+      showData();
+      props.onPlaying();
+      musicPlay();
+    }
+    const onStop=()=>{
+      props.onStop();
+    }
     return (
         <>
-          <audio   autoPlay={true} id="audio" src={(arrUrl[arrUrl.length-1]).music}></audio>
-          <FooterComponent onChangeProgess={onChangeProgess} progess={progess} loopMusic={loop} onLoop={onLoop} time={time} onChangeVolume={onChangeVolume} data={Footer.url} onPlay={onPlay} playing={playing} />
+        <Dialog
+        open={openKara}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogContent>
+         {/*  */}
+        </DialogContent>
+      </Dialog>
+          <audio   autoPlay={true} id="audio" src={show()}></audio>
+          <FooterComponent
+          onStop={onStop}
+          random={randomMusic}
+            handleClickOpen={handleClickOpen}
+          randomMusic={randomMusics} preMusic={preMusic} 
+          onChangeProgess={onChangeProgess} progess={progess} loopMusic={loopMusic} onLoopMusic={onLoopMusic} time={time}
+           onChangeVolume={onChangeVolume} data={showData()} onPlay={onPlay} playing={playing} nextMusic={nextMusic} />
         </>
     )
 }
@@ -155,11 +267,14 @@ const dispatchToProps=(dispatch,props)=>{
     onPlaying:()=>{
       dispatch(action.onOplaying());
     },
-    GET_ALL_MUSIC: ()=>{
-      dispatch(action.GET_ALL_MUSIC());
-    },
     stopRorate:()=>{
       dispatch(action.endPlay());
+    },
+    Stop_PLAYING:()=>{
+      dispatch(action.END_PLAY());
+    },
+    onStop:()=>{
+      dispatch(action.END_PLAY());
     }
   }
 }

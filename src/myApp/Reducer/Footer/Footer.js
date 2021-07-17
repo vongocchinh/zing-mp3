@@ -5,7 +5,7 @@ import * as types from './../../Footer/contanst/Footer'
 var initialState={
     playing:false,
     dataMusic:[],
-    url:{}
+    url:null
 }
 
 var myReducer = (state = initialState, actions) => {
@@ -14,7 +14,7 @@ var myReducer = (state = initialState, actions) => {
         case types.ON_PLAYING_MUSIC:
             state={
                 ...state,
-                playing:!state.playing
+                playing:true
             };
             localStorage.setItem('url',JSON.stringify(state));
             return state;

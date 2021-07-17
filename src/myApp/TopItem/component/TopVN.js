@@ -9,6 +9,9 @@ const TopVN=(props)=>{
             return  <img className={props.play? "img-rorate":""} alt=" " src={data.coverImage} />
         }
     }
+    const onStop=()=>{
+        props.onStop();
+    }
     return(
         <>
         <div className="con-vn">
@@ -17,7 +20,8 @@ const TopVN=(props)=>{
                     <div className="img">
                     {showAvatar(props.avatar)}
                     </div>
-                    <button onClick={onPlaying}>{props.play?"Tạm Dừng":"Tiếp Tục Phát"}</button>
+                    {props.play?<button onClick={onStop}>Tạm Dừng</button>:
+                    <button onClick={onPlaying}>Tiếp Tục Phát</button>}
                     <span className="span">Cập Nhật: 16/07/2021</span>
                     <span>1 tỉ người yêu thích</span>
                 </div>

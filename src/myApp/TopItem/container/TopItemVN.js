@@ -36,9 +36,12 @@ const TopVN=(props)=>{
     const playingbutton=()=>{
       props.playing();
     }
+    const onStop=()=>{
+      props.onStop();
+    }
     return(
         <>
-          <TopVNComponenet avatar={arrs[0]&&arrs[0]} onPlaying={playingbutton} play={playings} showItem={showItem(arrs)} />
+          <TopVNComponenet onStop={onStop} avatar={arrs[0]&&arrs[0]} onPlaying={playingbutton} play={playings} showItem={showItem(arrs)} />
         </>
     )
 }
@@ -58,6 +61,9 @@ const mapStateToProps=(state)=>{
       },
       playing:()=>{
         dispatch(actions.onOplaying());
+      },
+      onStop:()=>{
+        dispatch(actions.END_PLAY());
       }
     }
   }

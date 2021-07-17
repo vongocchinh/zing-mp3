@@ -54,69 +54,102 @@ const Footer=(props)=>{
     }
   }
   const onLoop=()=>{
-    props.onLoop();
+    props.onLoopMusic();
   }
 
   const onChangeProgess=(e)=>{
     props.onChangeProgess(e.target.value);
   }
-    return (
-        <>
-        <div className="con-footer">
-          <div className="con-footer-item">
-            <div className="con-footer-item-1">
-              <div className="img">
-                {show(props.data)}
-              </div>
-              <div className="item-play-name">
-                {showTitle(props.data)}
-               
-              </div>
-              <div className="icon" >
-                <MoreHorizIcon className="MoreHorizIcon" />
-                <FavoriteBorderIcon className="MoreHorizIcon" />
-              </div>
-            </div>
-            <div className="con-footer-item-2">
+  const preMusic=()=>{
+    props.preMusic();
+  }
+  const randomMusic=()=>{
+    props.randomMusic();
+  }
+  const nextMusic=()=>{
+    props.nextMusic();
+  }
+  const handleClickOpen=()=>{
+    props.handleClickOpen();
+  }
 
-                <div className="con-footer-item-2-item-top">
-                <ShuffleIcon className="ShuffleIcons" />
-                  <AiOutlineStepBackward className="ShuffleIcons" />
-                  {playing?<AiOutlinePause className="ShuffleIcons" onClick={onPlay} />:<AiFillCaretRight className="ShuffleIcons" onClick={onPlay} />}
-                    
-                  <AiOutlineStepForward className="ShuffleIcons"  />
-                  {props.loopMusic?<RepeatOneIcon className="ShuffleIcon " style={{color:"#7200A1"}} onClick={onLoop} />:<RepeatIcon className="ShuffleIcon " onClick={onLoop} />}
-                </div>
-                <div className="con-footer-item-2-item">
-                   <p className="span1">00.00</p> 
-                  <input id="progress" className="progress" type="range" onChange={onChangeProgess} value={props.progess?props.progess:0}  step="1" min="0" max="100" />
-                  <p className="span2">{props.time?props.time:"00.00"}</p>
-                </div>
+  const format=(value)=>{
+    var valueBe=parseInt(value);
+    var valueAf=value-valueBe;
+
+    var valueAfStr=Number((valueAf.toFixed(2)).toString().split(".")[1]);
+    var count=0;
+    
+    while(valueAfStr>=60){
+      count++;
+      valueAfStr%=60;
+    }
+    var kq1=(valueBe+count);
+    if(kq1.toString().split('').length===1){
+      return "0"+kq1+":"+parseInt(valueAfStr);
+    }
+    return +":"+parseInt(valueAfStr);
+  }
+  const onStop=()=>{
+    props.onStop();
+  }
+  return (
+      <>
+      <div className="con-footer">
+        <div className="con-footer-item">
+          <div className="con-footer-item-1">
+            <div className="img">
+              {show(props.data)}
             </div>
-            <div className="con-footer-item-1">
-              <div className="option-vl" >
-                <YouTubeIcon  className="YouTubeIcon" />
-                <MicIcon className="YouTubeIcon" />
-                <div>
-                  {muted? <VolumeOffIcon onClick={muteVolume} className="YouTubeIcon" /> :<VolumeUpIcon onClick={muteVolume} className="YouTubeIcon" /> }
-                  <input
-                  type="range"
-                  min={0}
-                  max={1}
-                  step={0.05}
-                  disabled={muted}
-                  value={volume}
-                  onChange={event => {
-                    setVolume(event.target.valueAsNumber)
-                  }}
-                />
-                </div>
-                <ZoomOutMapIcon className="YouTubeIcon" />
+            <div className="item-play-name">
+              {showTitle(props.data)}
               
-              </div>  
+            </div>
+            <div className="icon" >
+              <MoreHorizIcon className="MoreHorizIcon" />
+              <FavoriteBorderIcon className="MoreHorizIcon" />
             </div>
           </div>
+          <div className="con-footer-item-2">
+
+              <div className="con-footer-item-2-item-top">
+             {props.random? <ShuffleIcon onClick={randomMusic} style={{color:"#7200A1"}} className="ShuffleIcons" />: <ShuffleIcon onClick={randomMusic} className="ShuffleIcons" />}
+                <AiOutlineStepBackward onClick={preMusic} className="ShuffleIcons" />
+                {playing?<AiOutlinePause className="ShuffleIcons" onClick={onStop} />:<AiFillCaretRight className="ShuffleIcons" onClick={onPlay} />}
+                  
+                <AiOutlineStepForward className="ShuffleIcons" onClick={nextMusic}  />
+                {props.loopMusic?<RepeatOneIcon className="ShuffleIcon " style={{color:"#7200A1"}} onClick={onLoop} />:<RepeatIcon className="ShuffleIcon " onClick={onLoop} />}
+              </div>
+              <div className="con-footer-item-2-item">
+                  <p className="span1">00.00</p> 
+                <input id="progress" className="progress" type="range" onChange={onChangeProgess} value={props.progess?props.progess:0}  step="1" min="0" max="100" />
+                <p className="span2">{props.time?format(props.time):"00.00"}</p>
+              </div>
+          </div>
+          <div className="con-footer-item-1">
+            <div className="option-vl" >
+              <YouTubeIcon  className="YouTubeIcon" />
+              <MicIcon onClick={handleClickOpen} className="YouTubeIcon" />
+              <div>
+                {muted? <VolumeOffIcon onClick={muteVolume} className="YouTubeIcon" /> :<VolumeUpIcon onClick={muteVolume} className="YouTubeIcon" /> }
+                <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.05}
+                disabled={muted}
+                value={volume}
+                onChange={event => {
+                  setVolume(event.target.valueAsNumber)
+                }}
+              />
+              </div>
+              <ZoomOutMapIcon className="YouTubeIcon" />
+            
+            </div>  
+          </div>
         </div>
+      </div>
         </>
     )
 }

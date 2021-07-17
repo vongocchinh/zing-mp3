@@ -19,6 +19,12 @@ export const GET_ALL_MUSIC=()=>{
 
 }
 
+export const END_PLAY=()=>{
+    return {
+        type:types.endPlay
+    }
+}
+
 export const onPlayingUrl=(data)=>{
     return {
         type:types.ON_PLAYING_URL,
