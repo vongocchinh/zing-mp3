@@ -146,16 +146,18 @@ const Footer=(props)=>{
 
 
     const NextMusic=()=>{
-      console.log(randomMusic);
-      // var audio = document.getElementById("audio");
-      var index=vtPlay;
+          console.log(randomMusic);
+          var audio = document.getElementById("audio");
+          var index=vtPlay;
           index++;
           if(index>arrUrl.length-1){
             index=0;
           }
+          console.log(index);
           setVTPlay(index);
           show();
           props.onPlaying();
+          audio.load();
           musicPlay();
     }
    
@@ -209,6 +211,7 @@ const Footer=(props)=>{
     }
 
     const preMusic=()=>{
+      var audio = document.getElementById("audio");
       var i=vtPlay;
       i--;
       if(i<0){
@@ -217,10 +220,13 @@ const Footer=(props)=>{
       setVTPlay(i);
       showData();
       props.onPlaying();
+      audio.load();
       musicPlay();
     }
     const nextMusic=()=>{
+      var audio = document.getElementById("audio");
       var i=vtPlay;
+
       i++;
       if(i>arrUrl.length-1){
         i=0;
@@ -228,6 +234,7 @@ const Footer=(props)=>{
       setVTPlay(i);
       showData();
       props.onPlaying();
+      audio.load();
       musicPlay();
     }
     const onStop=()=>{
