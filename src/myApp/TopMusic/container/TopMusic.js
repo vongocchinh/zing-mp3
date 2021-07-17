@@ -4,7 +4,6 @@ import Top from './../component/TopMusic';
 const TopMusic=(props)=>{
 
     const {Footer} = props;
-  console.log(Footer);
     return(
         <>
           <Top data={Footer.dataMusic.songs&&Footer.dataMusic.songs} />

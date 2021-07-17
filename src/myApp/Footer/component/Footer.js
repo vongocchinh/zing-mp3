@@ -17,7 +17,6 @@ import { AiOutlineStepBackward, AiOutlineStepForward ,AiOutlinePause, AiFillCare
 
 const Footer=(props)=>{
   var volumes=localStorage.getItem('volume')?localStorage.getItem('volume'):1;
-
   const [volume, setVolume] = useState(volumes);
   const [muted, setMuted] = useState(false)
   const finalVolume = muted ? 0 : volume ** 2;
@@ -82,7 +81,9 @@ const Footer=(props)=>{
                 <RepeatIcon className="ShuffleIcon" />
                 </div>
                 <div className="con-footer-item-2-item">
-
+                   <p className="span1">00.00</p> 
+                  <input id="progress" className="progress" type="range"  step="1" min="0" max="100" />
+                  <p className="span2">{props.time?props.time:"00.00"}</p>
                 </div>
             </div>
             <div className="con-footer-item-1">

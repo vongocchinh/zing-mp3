@@ -1,26 +1,45 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React ,{useState,useEffect} from 'react';
+import React ,{useState,useEffect, useMemo} from 'react';
 import { connect } from 'react-redux';
 import FooterComponent from './../component/Footer';
 import * as action from './../actions/Footer';
 
 
 const Footer=(props)=>{
-
+    const {Footer}=props;
     
     const [playing, setPlaying] = useState(false);
-    const [music,setAudio]=useState('https://aredir.nixcdn.com/Believe_Audio19/MuonRoiMaSaoCon-SonTungMTP-7011803.mp3?st=uPqHA1vdgUDNNYcvqr2oaA&e=1626319087');
-    const [audio] = useState(new Audio(music));
-    const {Footer}=props;
+    const [arrUrl,setArrUrl]=useState([{
+      id:1
+    }]);
+   
+    const [time,setTime]=useState(0);
+    useMemo(()=>{
+      setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
+      
+    },[Footer.url])
+
 
     const onPlay=()=>{
+       if(arrUrl[arrUrl.length-1].music){
         props.onPlaying();
+       }else{
+       }
     }
-
+    
     const onChangeVolume=(e)=>{
+      var audio = document.getElementById("audio");
       audio.volume=e;
     }
+    useMemo(()=>{
+      var audio = document.getElementById("audio");
+      if(playing){
+        setTime((audio.duration/60).toFixed(2));
+      }
+    },[Footer.url])
+
+
     useEffect(()=>{
       setPlaying(Footer.playing);
     },[Footer.playing]);
@@ -30,11 +49,10 @@ const Footer=(props)=>{
     },[1])
 
 
-    useEffect(()=>{
-      setAudio(Footer.url.music)
-    })
 
     useEffect(() => {
+      var audio = document.getElementById("audio");
+      
         playing ? audio.play() : audio.pause();
       },
       [playing]
@@ -45,6 +63,7 @@ const Footer=(props)=>{
         }
     }
     useEffect(() => {
+      var audio = document.getElementById("audio");
       audio.addEventListener('ended', () => {
         props.stopRorate();
         setPlaying(false)
@@ -58,9 +77,11 @@ const Footer=(props)=>{
         });
       };
     }, []);
+    // console.log(time);
     return (
         <>
-          <FooterComponent onChangeVolume={onChangeVolume} data={Footer.url} onPlay={onPlay} playing={playing} />
+          <audio  autoPlay={true} id="audio" src={(arrUrl[arrUrl.length-1]).music}></audio>
+          <FooterComponent time={time} onChangeVolume={onChangeVolume} data={Footer.url} onPlay={onPlay} playing={playing} />
         </>
     )
 }

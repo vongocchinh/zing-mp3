@@ -17,7 +17,7 @@ const TopVN=(props)=>{
     useEffect(()=>{
       props.GET_ITEM_ALL(id);
     },[id])
-    useEffect(()=>{
+    useMemo(()=>{
       setArrs(ItemVN.data);
     },[ItemVN])
 
