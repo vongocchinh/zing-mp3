@@ -1,5 +1,7 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
+/*eslint-disable  no-const-assign*/
+/*eslint-env es6*/
 import React ,{useState,useEffect, useMemo} from 'react';
 import { connect } from 'react-redux';
 import FooterComponent from './../component/Footer';
@@ -14,18 +16,22 @@ const Footer=(props)=>{
     const [progess, setProgess] = useState(0);
 
     const [startApp,setStartMusic]=useState(false);
+    const [nexMusic,setNexMusic]=useState(true);
+    
     const [arrUrl,setArrUrl]=useState([]);
    
-    const [vtPlay,setVTPlay]=useState(-1);
+    var [vtPlay,setVTPlay]=useState(null);
     const [openKara, setOpenKara] = React.useState(false);
 
-    const [randomMusic,setRandom]=useState(false);
+    var [randomMusic,setRandom]=useState(false);
 
 
     useMemo(()=>{
       var indexPlayState=arrUrl.length>0?arrUrl.length-1:-1;
       setVTPlay(indexPlayState)
     },[arrUrl.length])
+
+
     const handleClickOpen = () => {
       setOpenKara(true);
     };
@@ -45,6 +51,8 @@ const Footer=(props)=>{
         setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
       }
     },[Footer.url])
+
+
 
 
     const onPlay=()=>{
@@ -107,8 +115,6 @@ const Footer=(props)=>{
       setStartMusic(true);
       if(startApp){
        audio.ontimeupdate=()=>{
-        setTime((audio.duration/60).toFixed(2));
-        setProgess(audio.currentTime/audio.duration*100)
          setTime((audio.duration/60).toFixed(2));
          setProgess(audio.currentTime/audio.duration*100)
        }
@@ -129,46 +135,61 @@ const Footer=(props)=>{
 
 
 
-    // const getIndexRadom=()=>{
-    //   let newIndex;
-    //   let i=vtPlay;
-    //   do {
-    //     newIndex = Math.floor(Math.random() * arrUrl.length);
-    //     if(newIndex !== i){
-    //         return newIndex;
-    //     }
-    //   } while (true);
-    // }
+  
+
+    
     const randomMusics=()=>{
+      
       setRandom(!randomMusic);
     }
 
 
 
-    const NextMusic=()=>{
-          console.log(randomMusic);
-          var audio = document.getElementById("audio");
-          var index=vtPlay;
-          index++;
-          if(index>arrUrl.length-1){
-            index=0;
-          }
-          console.log(index);
-          setVTPlay(index);
-          show();
-          props.onPlaying();
-          audio.load();
-          musicPlay();
-    }
-   
+    const NextMusicRandom=()=>{
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * arrUrl.length);
+      } while (newIndex===vtPlay);
+      
+      setVTPlay(newIndex);
+      props.onPlaying();
+      musicPlay();
+}
+
+    useMemo(()=>{
+      if(randomMusic){
+        setNexMusic(false);
+        NextMusicRandom();
+      }else{
+        setNexMusic(true);
+      }
+
+    },[randomMusic]);
+
     useEffect(() => {
       var audio = document.getElementById("audio");
       audio.addEventListener('ended', () => {
-        props.stopRorate();
-        props.Stop_PLAYING();
+
         NextMusic();
       });
     }, []);
+
+    const NextMusic=()=>{
+      props.stopRorate();
+      props.Stop_PLAYING();
+      if(nexMusic){
+        vtPlay++;
+        if(vtPlay>arrUrl.length-1){
+          vtPlay=0;
+        }
+        setVTPlay(vtPlay);
+        show();
+        props.onPlaying();
+        musicPlay();
+      }
+      
+    }
+
 
 
     useEffect(()=>{
@@ -177,9 +198,12 @@ const Footer=(props)=>{
     },[loopMusic])
 
 
+
     const onLoopMusic=()=>{
       setLoopMusic(!loopMusic);      
     }
+
+
 
     const onChangeProgess=(e)=>{
       var audio = document.getElementById("audio");
@@ -187,13 +211,7 @@ const Footer=(props)=>{
         var speek=audio.duration/100* e;
         audio.currentTime=speek;
       }
-
-     
     }
-
-
-    
-    
 
     const show=()=>{
       if(vtPlay!==-1){
@@ -204,6 +222,7 @@ const Footer=(props)=>{
     }
     const showData=()=>{
       if(vtPlay!==-1){
+
         if(getIndex(vtPlay)){
           return getIndex(vtPlay);
         }
@@ -212,32 +231,29 @@ const Footer=(props)=>{
 
     const preMusic=()=>{
       if(arrUrl.length>0){
-        var audio = document.getElementById("audio");
-        var i=vtPlay;
-        i--;
-        if(i<0){
-          i=arrUrl.length-1;
+        props.stopRorate();
+        props.Stop_PLAYING();
+        vtPlay--;
+        if(vtPlay<0){
+          vtPlay=arrUrl.length-1;
         }
-        setVTPlay(i);
-        showData();
+        setVTPlay(vtPlay);
+        show();
         props.onPlaying();
-        audio.load();
         musicPlay();
       }
     }
     const nextMusic=()=>{
      if(arrUrl.length>0){
-      var audio = document.getElementById("audio");
-      var i=vtPlay;
-
-      i++;
-      if(i>arrUrl.length-1){
-        i=0;
+      props.stopRorate();
+      props.Stop_PLAYING();
+      vtPlay++;
+      if(vtPlay>arrUrl.length-1){
+        vtPlay=0;
       }
-      setVTPlay(i);
-      showData();
+      setVTPlay(vtPlay);
+      show();
       props.onPlaying();
-      audio.load();
       musicPlay();
      }
     }
