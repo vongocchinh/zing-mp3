@@ -8,9 +8,9 @@ import FooterComponent from './../component/Footer';
 import * as action from './../actions/Footer';
 import DialogContent from '@material-ui/core/DialogContent';
 import Dialog from '@material-ui/core/Dialog';
+import Item from '../component/PlayList/Item';
 const Footer=(props)=>{
-    const {Footer}=props;
-    
+    const {Footer,RanlOnplayMusic}=props;
     const [playing, setPlaying] = useState(false);
     const [loopMusic, setLoopMusic] = useState(false);
     const [progess, setProgess] = useState(0);
@@ -18,14 +18,22 @@ const Footer=(props)=>{
     const [startApp,setStartMusic]=useState(false);
     const [nexMusic,setNexMusic]=useState(true);
     
-    const [arrUrl,setArrUrl]=useState([]);
-   
+    const [arrUrl,setArrUrl]=useState(JSON.parse(localStorage.getItem('arrUrl'))?JSON.parse(localStorage.getItem('arrUrl')):[]);
+    const [arrPlayMusicTop,setArrPlayMusicTop]=useState([])
     var [vtPlay,setVTPlay]=useState(null);
     const [openKara, setOpenKara] = React.useState(false);
 
     var [randomMusic,setRandom]=useState(false);
 
 
+    useMemo(()=>{
+        if(RanlOnplayMusic.rankOnPlay){
+         
+          setArrPlayMusicTop(RanlOnplayMusic.data);
+          console.log(arrPlayMusicTop);
+        }
+    },[RanlOnplayMusic.rankOnPlay])
+    
     useMemo(()=>{
       var indexPlayState=arrUrl.length>0?arrUrl.length-1:-1;
       setVTPlay(indexPlayState)
@@ -49,6 +57,7 @@ const Footer=(props)=>{
     useMemo(()=>{
       if(Footer.url&&Footer.url!==null){
         setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
+        localStorage.setItem('arrUrl',JSON.stringify(arrUrl));
       }
     },[Footer.url])
 
@@ -132,15 +141,35 @@ const Footer=(props)=>{
             return "Are you sure to leave this page?";
         }
     }
-
-
-
-  
-
+    const onPlayingPlayList=(e)=>{
+        props.stopRorate();
+        props.Stop_PLAYING();
+        setVTPlay(e);
+        show();
+        props.onPlaying();
+        musicPlay();
+    }
+    const onsTopMusic=()=>{
+      props.onStop();
+    }
+    const showHistory=(arr,vt)=>{
+      var html=null;
+      if(arr.length>0){
+        html=arr.map((value,key)=>{
+          return (
+            <Item classname={key===vt?true : false} onsTopMusic={onsTopMusic}  value={value} key={key} stt={key} onPlayingPlayList={onPlayingPlayList} />
+          )
+        })
+      }else{
+        return <div className="not-arr"><span >Danh sách trống</span></div>
+      }
+      return html;
+    }
     
     const randomMusics=()=>{
-      
-      setRandom(!randomMusic);
+      if(arrUrl.length>0){
+        setRandom(!randomMusic);
+      }
     }
 
 
@@ -275,6 +304,7 @@ const Footer=(props)=>{
       </Dialog>
           <audio   autoPlay={true} id="audio" src={show()}></audio>
           <FooterComponent
+          showHistory={showHistory(arrUrl,vtPlay)}
           onStop={onStop}
           random={randomMusic}
             handleClickOpen={handleClickOpen}
@@ -286,7 +316,8 @@ const Footer=(props)=>{
 }
 const mapStateToProps=(state)=>{
   return {
-    Footer:state.Footer
+    Footer:state.Footer,
+    RanlOnplayMusic:state.RanlOnplayMusic
   }
 }
 const dispatchToProps=(dispatch,props)=>{

@@ -24,6 +24,9 @@ const TopVN=(props)=>{
     const onPlay=(e)=>{
       props.onPlaying(e);
     }
+    useEffect(()=>{
+      props.SetRankPlayListMusic(arrs);
+    })
     const showItem=(arr)=>{
       var html=null;
       if(arr){
@@ -64,6 +67,9 @@ const mapStateToProps=(state)=>{
       },
       onStop:()=>{
         dispatch(actions.END_PLAY());
+      },
+      SetRankPlayListMusic:(data)=>{
+        dispatch(action.SetRankPlayListMusic(data));
       }
     }
   }

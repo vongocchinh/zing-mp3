@@ -1,9 +1,10 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React,{useState,useEffect}  from 'react';
+import {Dialog} from '@material-ui/core';
 import './styles/styles.scss'
 import play from './asset/z.png';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreHorizIcon from '@material-ui/icons/PlaylistAdd';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
@@ -14,9 +15,11 @@ import ShuffleIcon from '@material-ui/icons/Shuffle';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import { AiOutlineStepBackward, AiOutlineStepForward ,AiOutlinePause, AiFillCaretRight } from 'react-icons/ai';
 import RepeatOneIcon from '@material-ui/icons/RepeatOne';
-
+import PlayList from './PlayList/PlayList';
 const Footer=(props)=>{
   var volumes=localStorage.getItem('volume')?localStorage.getItem('volume'):1;
+  const [openPlayList, setOpenPlayList] = React.useState(false);
+  const [openHeart, setOpenHeart] = React.useState(false);
   const [volume, setVolume] = useState(volumes);
   const [muted, setMuted] = useState(false)
   const finalVolume = muted ? 0 : volume ** 2;
@@ -56,7 +59,6 @@ const Footer=(props)=>{
   const onLoop=()=>{
     props.onLoopMusic();
   }
-
   const onChangeProgess=(e)=>{
     props.onChangeProgess(e.target.value);
   }
@@ -73,13 +75,29 @@ const Footer=(props)=>{
     props.handleClickOpen();
   }
 
+
+  const handleClickOpenList = () => {
+    setOpenPlayList(true);
+  };
+
+  const handleClose = () => {
+    setOpenPlayList(false);
+  };
+
+  const handleCloseHeart = () => {
+    setOpenHeart(false);
+  };
+
+  
+  const handleClickOpenListHeart = () => {
+    setOpenHeart(true);
+  };
+
   const format=(value)=>{
     var valueBe=parseInt(value);
     var valueAf=value-valueBe;
-
     var valueAfStr=Number((valueAf.toFixed(2)).toString().split(".")[1]);
     var count=0;
-    
     while(valueAfStr>=60){
       count++;
       valueAfStr%=60;
@@ -95,6 +113,30 @@ const Footer=(props)=>{
   }
   return (
       <>
+       <Dialog
+        open={openPlayList}
+        keepMounted
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+        style={{borderRadius:"20px"}}
+      >
+        <>
+        <PlayList showHistory={props.showHistory} />
+        </>
+      </Dialog>
+      <Dialog
+        open={openHeart}
+        keepMounted
+        onClose={handleCloseHeart}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+        style={{borderRadius:"20px"}}
+      >
+        <>
+        Chưa có
+        </>
+      </Dialog>
       <div className="con-footer">
         <div className="con-footer-item">
           <div className="con-footer-item-1">
@@ -106,9 +148,18 @@ const Footer=(props)=>{
               
             </div>
             <div className="icon" >
-              <MoreHorizIcon className="MoreHorizIcon" />
-              <FavoriteBorderIcon className="MoreHorizIcon" />
+              <MoreHorizIcon onClick={handleClickOpenList} className="MoreHorizIcon" />
+              <FavoriteBorderIcon onClick={handleClickOpenListHeart} className="MoreHorizIcon" />
+             
             </div>
+              
+            {/* </div> */}
+            {/* <div className="icon" >
+              <div className="icon-hover-none-heart">
+              <div className="icon-hover-play-list">
+              </div>
+            </div> */}
+
           </div>
           <div className="con-footer-item-2">
 

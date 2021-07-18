@@ -12,3 +12,11 @@ export const GET_ITEM_ALL=(id)=>{
    }
 
 }
+
+
+export const SetRankPlayListMusic=(data)=>{
+    return {
+        type:type.SetRankPlayListMusic,
+        data
+    }
+}
