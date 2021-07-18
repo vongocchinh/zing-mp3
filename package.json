@@ -10,6 +10,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "lrc-file-parser": "^1.1.0",
     "plyr": "^3.6.8",
     "plyr-react": "^3.0.8",
     "react": "^17.0.2",
