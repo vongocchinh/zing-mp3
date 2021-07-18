@@ -24,6 +24,7 @@ const Footer=(props)=>{
     const [openKara, setOpenKara] = React.useState(false);
 
     var [randomMusic,setRandom]=useState(false);
+
     const [time,setTime]=useState(0);
 
     useMemo(()=>{
@@ -108,9 +109,6 @@ const Footer=(props)=>{
     }
     },[playing])
 
-    
-
-
     useEffect(() => {      
         playing ? musicPlay() : musicPause();
       },
@@ -119,17 +117,17 @@ const Footer=(props)=>{
 
     const musicPlay=()=>{
       var audio = document.getElementById("audio");
-      audio.play()
+      audio.play();
       setPlaying(true);
       setStartMusic(true);
       if(startApp){
        audio.ontimeupdate=()=>{
          setTime((audio.duration/60).toFixed(2));
          setProgess(audio.currentTime/audio.duration*100)
-       }
+        }
+      }
     }
-  }
-
+    
     const musicPause=()=>{
       var audio = document.getElementById("audio");
       audio.pause()
@@ -171,7 +169,6 @@ const Footer=(props)=>{
         setRandom(!randomMusic);
       }
     }
-
 
 
     const NextMusicRandom=()=>{
@@ -314,14 +311,14 @@ const Footer=(props)=>{
       </Dialog>
           <audio   autoPlay={true} id="audio" src={show()}></audio>
           <FooterComponent
-          showHistory={showHistory(arrUrl,vtPlay)}
-          onStop={onStop}
-          random={randomMusic}
-          onDeleteHistory={onDeleteHistory}
+            showHistory={showHistory(arrUrl,vtPlay)}
+            onStop={onStop}
+            random={randomMusic}
+            onDeleteHistory={onDeleteHistory}
             handleClickOpen={handleClickOpen}
-          randomMusic={randomMusics} preMusic={preMusic} 
-          onChangeProgess={onChangeProgess} progess={progess} loopMusic={loopMusic} onLoopMusic={onLoopMusic} time={time}
-           onChangeVolume={onChangeVolume} data={showData()} onPlay={onPlay} playing={playing} nextMusic={nextMusic} />
+            randomMusic={randomMusics} preMusic={preMusic} 
+            onChangeProgess={onChangeProgess} progess={progess} loopMusic={loopMusic} onLoopMusic={onLoopMusic} time={time}
+            onChangeVolume={onChangeVolume} data={showData()} onPlay={onPlay} playing={playing} nextMusic={nextMusic} />
         </>
     )
 }

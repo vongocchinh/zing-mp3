@@ -102,11 +102,23 @@ const Footer=(props)=>{
       count++;
       valueAfStr%=60;
     }
-    var kq1=(valueBe+count);
+    let kq1=parseInt(valueBe+count);
     if(kq1.toString().split('').length===1){
-      return "0"+kq1+":"+parseInt(valueAfStr);
+      kq1="0"+kq1;
     }
-    return +":"+parseInt(valueAfStr);
+
+
+    let kq2=parseInt(valueAfStr);
+    if(kq2.toString().split('').length===1){
+      kq2=kq2+"0";
+    }
+
+    if(!(isNaN(kq1))&&!(isNaN(kq2))){
+      return kq1+":"+kq2;
+    }else{
+      return <span className="loading">Loading...</span>;
+    }
+    
   }
   const onStop=()=>{
     props.onStop();
@@ -114,6 +126,8 @@ const Footer=(props)=>{
   const onDeleteHistory=()=>{
     props.onDeleteHistory();
   }
+
+
   return (
       <>
        <Dialog
