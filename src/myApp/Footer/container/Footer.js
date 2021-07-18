@@ -24,7 +24,7 @@ const Footer=(props)=>{
     const [openKara, setOpenKara] = React.useState(false);
 
     var [randomMusic,setRandom]=useState(false);
-
+    const [time,setTime]=useState(0);
 
     useMemo(()=>{
         if(RanlOnplayMusic.rankOnPlay){
@@ -53,7 +53,7 @@ const Footer=(props)=>{
      return result;
     }
  
-    const [time,setTime]=useState(0);
+   
     useMemo(()=>{
       if(Footer.url&&Footer.url!==null){
         setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
@@ -289,6 +289,16 @@ const Footer=(props)=>{
     const onStop=()=>{
       props.onStop();
     }
+
+    const onDeleteHistory=()=>{
+      var arrUrl=[];
+      setArrUrl(arrUrl);
+      localStorage.setItem('arrUrl',JSON.stringify(arrUrl));
+      setProgess(0);
+      setPlaying(false);
+      props.Stop_PLAYING();
+      setTime(0);
+    }
     return (
         <>
         <Dialog
@@ -307,6 +317,7 @@ const Footer=(props)=>{
           showHistory={showHistory(arrUrl,vtPlay)}
           onStop={onStop}
           random={randomMusic}
+          onDeleteHistory={onDeleteHistory}
             handleClickOpen={handleClickOpen}
           randomMusic={randomMusics} preMusic={preMusic} 
           onChangeProgess={onChangeProgess} progess={progess} loopMusic={loopMusic} onLoopMusic={onLoopMusic} time={time}

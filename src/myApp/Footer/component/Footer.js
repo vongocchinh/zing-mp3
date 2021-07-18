@@ -111,6 +111,9 @@ const Footer=(props)=>{
   const onStop=()=>{
     props.onStop();
   }
+  const onDeleteHistory=()=>{
+    props.onDeleteHistory();
+  }
   return (
       <>
        <Dialog
@@ -122,7 +125,7 @@ const Footer=(props)=>{
         style={{borderRadius:"20px"}}
       >
         <>
-        <PlayList showHistory={props.showHistory} />
+        <PlayList onDeleteHistory={onDeleteHistory} showHistory={props.showHistory} />
         </>
       </Dialog>
       <Dialog
