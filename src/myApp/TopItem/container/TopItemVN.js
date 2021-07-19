@@ -32,7 +32,9 @@ const TopVN=(props)=>{
       props.onPlaying(e);
     }
     useEffect(()=>{
-      props.SetRankPlayListMusic({arrs,id});
+      var idNew=id+"vn";
+      console.log(idNew);
+      props.SetRankPlayListMusic({arrs,idNew});
     })
 
     const ADD_PLAY_LIST=(data)=>{

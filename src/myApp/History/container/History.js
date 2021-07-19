@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import His from './../component/History';
 import * as action from './../action/action';
-import Item from './../component/Item';
-
+import Item from './../component/Item2';
+import * as actionf from '../../Footer/actions/Footer';
 import * as actions from './../../TopItem/actions/topVN';
 
 function History(props) {
@@ -19,13 +19,17 @@ function History(props) {
             props.SetRankDataMusic({arrs,id});
         }
     })
+    const onPlay=(e)=>{
+        console.log(e);
+        props.onPlaying(e);
+    }
     const showHistoty=(arr)=>{
         var html=null;
 
         if(arr){
             html=arr.map((value,key)=>{
                 return (
-                    <Item track={1} ADD_PLAY_LIST={ADD_PLAY_LIST} value={value} key={key} />
+                    <Item track={1} stt={key}  ADD_PLAY_LIST={ADD_PLAY_LIST} onPlay={onPlay} value={value} key={key} />
                 )
             })
         }
@@ -61,6 +65,10 @@ const mapStateToProps=(state)=>{
         SetRankDataMusic:(data)=>{
             dispatch(actions.SetRankPlayListMusic(data));
         }
+        ,
+        onPlaying:(data)=>{
+            dispatch(actionf.onPlayingUrl(data));
+          }
       }
   }
 export default (connect(mapStateToProps,dispatchToProps))(History);

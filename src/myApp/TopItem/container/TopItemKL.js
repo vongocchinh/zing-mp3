@@ -26,7 +26,8 @@ const TopKL=(props)=>{
       props.onPlaying(e);
     }
     useEffect(()=>{
-      props.SetRankPlayListMusic({arrs,id});
+      var idNew=id+"KL";
+      props.SetRankPlayListMusic({arrs,idNew});
     })
 
     const ADD_PLAY_LIST=(data)=>{

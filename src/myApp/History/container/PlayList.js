@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import His from './../component/History';
 import * as action from './../action/action';
-import Item from './../component/Item';
+import Item from '../component/Item1';
 import * as actions from './../../TopItem/actions/topVN';
 import * as actionf from '../../Footer/actions/Footer';
 function PlayList(props) {
     const {PlayList}=props;
     useEffect(()=>{
         if(PlayList.length>0){
-            var id="10";
+            var id="11";
             var arrs=PlayList
             props.SetRankDataMusic({arrs,id});
         }

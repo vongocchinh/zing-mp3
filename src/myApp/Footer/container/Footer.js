@@ -16,8 +16,8 @@ const Footer=(props)=>{
     const [loopMusic, setLoopMusic] = useState(false);
     const [progess, setProgess] = useState(0);
     const [startApp,setStartMusic]=useState(false);
+    const [category,setCategory]=useState(localStorage.getItem('category')?localStorage.getItem('category'):null);
     const [nexMusic,setNexMusic]=useState(true);
-    // const [category,setcategory]=useState(localStorage.getItem('category')?localStorage.getItem('category'):null);
     let [arrUrl,setArrUrl]=useState([]);
     var [vtPlay,setVTPlay]=useState(localStorage.getItem('vt')?localStorage.getItem('vt'):null);
     const [openKara, setOpenKara] = React.useState(false);
@@ -35,30 +35,25 @@ const Footer=(props)=>{
     useMemo(()=>{
       if(RanlOnplayMusic.data){
         setArrUrl(RanlOnplayMusic.data);
-        // setVTPlay(0)
-        // props.onPlaying();
+        setVTPlay(vtPlay);
+        if(vtPlay!==null){
+          props.onPlaying();
+        }
       }
     },[RanlOnplayMusic.data])
 
     
 
 
-    // useMemo(()=>{
-    //   if(RanlOnplayMusic.category!==null&&(localStorage.getItem('category')?localStorage.getItem('category'):null)!==RanlOnplayMusic.category){
-    //     setVTPlay(0);
-    //     props.onPlaying();
-    //     setcategory(RanlOnplayMusic.category);
-    //     localStorage.setItem('category',RanlOnplayMusic.category);
-    //   }else{
-       
-    //   }
-    // },[RanlOnplayMusic.category])
-
-    // useMemo(()=>{
-    //   localStorage.setItem('vt',0);
-    //   setVTPlay(0);
+    useMemo(()=>{
       
-    // },[RanlOnplayMusic.data[0]])
+      if(RanlOnplayMusic.category!==category){
+        setVTPlay(0);
+        setCategory(RanlOnplayMusic.category)
+        props.onPlaying();
+        localStorage.setItem('category',RanlOnplayMusic.category);
+      }
+    },[RanlOnplayMusic.category])
 
 
     useEffect(()=>{
@@ -72,20 +67,6 @@ const Footer=(props)=>{
      }
     },[vtPlay])
 
-
-    // useMemo(()=>{
-    //   var indexPlayState=arrUrl.length>0?arrUrl.length-1:-1;
-    //   setVTPlay(indexPlayState)
-    // },[arrUrl.length])
-
-
-        // useMemo(()=>{
-    //   if(Footer.url&&Footer.url!==null){
-    //     setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
-    //     // setVTPlay(arrUrl.length-1);
-    //     // localStorage.setItem('arrUrl',JSON.stringify(arrUrl));
-    //   }
-    // },[Footer.url])
 
 
 
@@ -101,27 +82,12 @@ const Footer=(props)=>{
       var audio = document.getElementById("audio");
       audio.volume=e;
     }
- 
 
-    //Getindex
     const getIndex=(i)=>{
-     const result=  arrUrl.find((value,key)=>key===i);
+        const result=arrUrl[i];
      return result;
     }
  
-  //  useMemo(()=>{
-  //   if(vtPlay!==null){
-  //     const result=  arrUrl.find((value,key)=>key===vtPlay);
-  //     props.AddListHistory(result);
-  //   }
-  //  },[vtPlay])
-
-
-
-
-// event play props
-
-
     const onPlay=()=>{
        if(arrUrl.length>0&&vtPlay!==null){
         props.onPlaying();
@@ -322,8 +288,7 @@ const Footer=(props)=>{
       }
     }
     const showData=()=>{
-      if(vtPlay!==-1){
-
+      if(vtPlay!==null){
         if(getIndex(vtPlay)){
           return getIndex(vtPlay);
         }

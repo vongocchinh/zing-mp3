@@ -1,7 +1,7 @@
 import * as types from './../../TopMusic/constant/topMusic'
 
 var initialState={
-    dataMusic:[],
+    dataMusic:JSON.parse(localStorage.getItem('topVN'))?JSON.parse(localStorage.getItem('topVN')):[],
 }
 
 var myReducer = (state = initialState, actions) => {
@@ -12,6 +12,7 @@ var myReducer = (state = initialState, actions) => {
                 ...state,
                 dataMusic:actions.data
             }
+            localStorage.setItem('topVN',JSON.stringify(state));
             return state;
         
         default: return state;

@@ -2,9 +2,9 @@ import * as types from './../../TopItem/constant/topVN'
 
 
 var initialState={
-    data:[],
+    data:JSON.parse(localStorage.getItem('dataRank'))?JSON.parse(localStorage.getItem('dataRank')):[],
     rankOnPlay:false,
-    category:null
+    category:localStorage.getItem('categoryStore')?localStorage.getItem('categoryStore'):null
 }
 
 var myReducer = (state = initialState, actions) => {
@@ -15,8 +15,10 @@ var myReducer = (state = initialState, actions) => {
                 state={
                     data:actions.data.arrs,
                     rankOnPlay:true,
-                    category:actions.data.id
+                    category:actions.data.idNew
                 }
+                localStorage.setItem('categoryStore',state.category);
+                localStorage.setItem('dataRank',JSON.stringify(state.data));   
             }
             return state;
         case types.ResetRankPlayListMusic:

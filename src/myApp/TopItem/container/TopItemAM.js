@@ -26,7 +26,8 @@ const TopAM=(props)=>{
       props.onPlaying(e);
     }
     useEffect(()=>{
-      props.SetRankPlayListMusic({arrs,id});
+      var idNew=id+"AM";
+      props.SetRankPlayListMusic({arrs,idNew});
     })
 
     const ADD_PLAY_LIST=(data)=>{
