@@ -7,7 +7,7 @@ import './styles/styles.scss';
 const Item=(props)=>{
     const [run,setRun]=useState(true);
     const onPlay=()=>{
-        // props.onPlay(props.stt);
+        props.onPlay(props.stt);
         setRun(true);
     }
     const ADD_PLAY_LIST=()=>{

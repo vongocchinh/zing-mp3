@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import Top from './../component/TopMusic';
 import * as action from './../actions/topmusic';
 const TopMusic=(props)=>{
-
+    useEffect(()=>{
+      window.scrollTo({top:0,behavior:"auto"})
+    })
     const {TopMusicVN} = props;
     useEffect(()=>{
       props.GET_ALL_TOP();

@@ -30,7 +30,7 @@ const Home=()=>{
             key={vertical + horizontal}
         >
             <Alert onClose={handleClose} severity="info">
-                Di chuyển Top 100 để nghe nhạc :v
+                Di chuyển Top 100 hoặc thư viện để nghe nhạc :v
             </Alert>
         </Snackbar>
         <HomeComponent />

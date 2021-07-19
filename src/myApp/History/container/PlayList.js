@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import His from './../component/History';
 import * as action from './../action/action';
 import Item from './../component/Item';
+import * as actions from './../../TopItem/actions/topVN';
+import * as actionf from '../../Footer/actions/Footer';
 function PlayList(props) {
     const {PlayList}=props;
+    useEffect(()=>{
+        if(PlayList.length>0){
+            var id="10";
+            var arrs=PlayList
+            props.SetRankDataMusic({arrs,id});
+        }
+    })
+    const onPlay=(e)=>{
+        props.onPlaying(e);
+    }
     const showHistoty=(arr)=>{
         var html=null;
 
         if(arr){
             html=arr.map((value,key)=>{
                 return (
-                    <Item track={0} value={value} key={key} />
+                    <Item track={0} onPlay={onPlay} stt={key} value={value} key={key} />
                 )
             })
         }
@@ -38,7 +50,13 @@ const mapStateToProps=(state)=>{
       return {
         onDelete:()=>{
             dispatch(action.DELETE_LIST());
-        }
+        },
+        SetRankDataMusic:(data)=>{
+            dispatch(actions.SetRankPlayListMusic(data));
+        },
+        onPlaying:(data)=>{
+            dispatch(actionf.onPlayingUrl(data));
+          }
       }
   }
 export default (connect(mapStateToProps,dispatchToProps))(PlayList);
