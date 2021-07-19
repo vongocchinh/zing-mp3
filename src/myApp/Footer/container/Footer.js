@@ -11,36 +11,85 @@ import Dialog from '@material-ui/core/Dialog';
 import Item from '../component/PlayList/Item';
 const Footer=(props)=>{
     const {Footer,RanlOnplayMusic}=props;
+    // console.log();
     const [playing, setPlaying] = useState(false);
     const [loopMusic, setLoopMusic] = useState(false);
     const [progess, setProgess] = useState(0);
-
     const [startApp,setStartMusic]=useState(false);
     const [nexMusic,setNexMusic]=useState(true);
-    
-    const [arrUrl,setArrUrl]=useState(JSON.parse(localStorage.getItem('arrUrl'))?JSON.parse(localStorage.getItem('arrUrl')):[]);
-    const [arrPlayMusicTop,setArrPlayMusicTop]=useState([])
-    var [vtPlay,setVTPlay]=useState(null);
+    // const [category,setcategory]=useState(localStorage.getItem('category')?localStorage.getItem('category'):null);
+    let [arrUrl,setArrUrl]=useState([]);
+    var [vtPlay,setVTPlay]=useState(localStorage.getItem('vt')?localStorage.getItem('vt'):null);
     const [openKara, setOpenKara] = React.useState(false);
-
     var [randomMusic,setRandom]=useState(false);
-
     const [time,setTime]=useState(0);
 
     useMemo(()=>{
-        if(RanlOnplayMusic.rankOnPlay){
-         
-          setArrPlayMusicTop(RanlOnplayMusic.data);
-          console.log(arrPlayMusicTop);
-        }
-    },[RanlOnplayMusic.rankOnPlay])
-    
+     if(Footer.url!==null){
+      setVTPlay(Footer.url);
+      localStorage.setItem('vt',Footer.url);
+     }
+    },[Footer.url])
+
+
     useMemo(()=>{
-      var indexPlayState=arrUrl.length>0?arrUrl.length-1:-1;
-      setVTPlay(indexPlayState)
-    },[arrUrl.length])
+      if(RanlOnplayMusic.data){
+        setArrUrl(RanlOnplayMusic.data);
+        // setVTPlay(0)
+        // props.onPlaying();
+      }
+    },[RanlOnplayMusic.data])
+
+    
 
 
+    // useMemo(()=>{
+    //   if(RanlOnplayMusic.category!==null&&(localStorage.getItem('category')?localStorage.getItem('category'):null)!==RanlOnplayMusic.category){
+    //     setVTPlay(0);
+    //     props.onPlaying();
+    //     setcategory(RanlOnplayMusic.category);
+    //     localStorage.setItem('category',RanlOnplayMusic.category);
+    //   }else{
+       
+    //   }
+    // },[RanlOnplayMusic.category])
+
+    // useMemo(()=>{
+    //   localStorage.setItem('vt',0);
+    //   setVTPlay(0);
+      
+    // },[RanlOnplayMusic.data[0]])
+
+
+    useEffect(()=>{
+      setPlaying(Footer.playing);
+    },[Footer.playing]);
+    
+
+    useMemo(()=>{
+     if(vtPlay!==null){
+      localStorage.setItem('vt',vtPlay)
+     }
+    },[vtPlay])
+
+
+    // useMemo(()=>{
+    //   var indexPlayState=arrUrl.length>0?arrUrl.length-1:-1;
+    //   setVTPlay(indexPlayState)
+    // },[arrUrl.length])
+
+
+        // useMemo(()=>{
+    //   if(Footer.url&&Footer.url!==null){
+    //     setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
+    //     // setVTPlay(arrUrl.length-1);
+    //     // localStorage.setItem('arrUrl',JSON.stringify(arrUrl));
+    //   }
+    // },[Footer.url])
+
+
+
+    // onclick
     const handleClickOpen = () => {
       setOpenKara(true);
     };
@@ -48,34 +97,44 @@ const Footer=(props)=>{
     const handleClose = () => {
       setOpenKara(false);
     };
+    const onChangeVolume=(e)=>{
+      var audio = document.getElementById("audio");
+      audio.volume=e;
+    }
+ 
 
+    //Getindex
     const getIndex=(i)=>{
-     const result=arrUrl.find((value,key)=>key===i);
+     const result=  arrUrl.find((value,key)=>key===i);
      return result;
     }
  
-   
-    useMemo(()=>{
-      if(Footer.url&&Footer.url!==null){
-        setArrUrl(...[arrUrl],arrUrl.push(Footer.url));
-        localStorage.setItem('arrUrl',JSON.stringify(arrUrl));
-      }
-    },[Footer.url])
+  //  useMemo(()=>{
+  //   if(vtPlay!==null){
+  //     const result=  arrUrl.find((value,key)=>key===vtPlay);
+  //     props.AddListHistory(result);
+  //   }
+  //  },[vtPlay])
 
 
+
+
+// event play props
 
 
     const onPlay=()=>{
-       if(arrUrl.length>0){
+       if(arrUrl.length>0&&vtPlay!==null){
         props.onPlaying();
        }else{
        }
     }
     
-    const onChangeVolume=(e)=>{
-      var audio = document.getElementById("audio");
-      audio.volume=e;
+    const onsTopMusic=()=>{
+      props.onStop();
     }
+
+
+    // set time
     useMemo(()=>{
       var audio = document.getElementById("audio");
      if(startApp){
@@ -94,11 +153,6 @@ const Footer=(props)=>{
     },[Footer.url])
 
     useEffect(()=>{
-      setPlaying(Footer.playing);
-     
-    },[Footer.playing]);
-    
-    useEffect(()=>{
       var audio = document.getElementById("audio");
       if(playing){
         audio.ontimeupdate=()=>{
@@ -109,15 +163,10 @@ const Footer=(props)=>{
     }
     },[playing])
 
-    useEffect(() => {      
-        playing ? musicPlay() : musicPause();
-      },
-      [playing]
-    );
 
-    const musicPlay=()=>{
+    const musicPlay=async()=>{
       var audio = document.getElementById("audio");
-      audio.play();
+      await audio.play();
       setPlaying(true);
       setStartMusic(true);
       if(startApp){
@@ -132,7 +181,20 @@ const Footer=(props)=>{
       var audio = document.getElementById("audio");
       audio.pause()
       setStartMusic(false);
+      props.Stop_PLAYING();
     }
+
+
+    
+
+
+    useEffect(() => {      
+        playing ? musicPlay() : musicPause();
+      },
+      [playing]
+    );
+
+
 
     window.onbeforeunload=function(){
         if(playing){
@@ -147,15 +209,13 @@ const Footer=(props)=>{
         props.onPlaying();
         musicPlay();
     }
-    const onsTopMusic=()=>{
-      props.onStop();
-    }
+
     const showHistory=(arr,vt)=>{
       var html=null;
       if(arr.length>0){
         html=arr.map((value,key)=>{
           return (
-            <Item classname={key===vt?true : false} onsTopMusic={onsTopMusic}  value={value} key={key} stt={key} onPlayingPlayList={onPlayingPlayList} />
+            <Item play={playing} classname={key===vt?true : false} onsTopMusic={onsTopMusic}  value={value} key={key} stt={key} onPlayingPlayList={onPlayingPlayList} />
           )
         })
       }else{
@@ -163,9 +223,12 @@ const Footer=(props)=>{
       }
       return html;
     }
+  
     
+
+    // random
     const randomMusics=()=>{
-      if(arrUrl.length>0){
+      if(arrUrl.length>0&&vtPlay!==null){
         setRandom(!randomMusic);
       }
     }
@@ -178,9 +241,42 @@ const Footer=(props)=>{
       } while (newIndex===vtPlay);
       
       setVTPlay(newIndex);
+      localStorage.setItem('vt',newIndex);
       props.onPlaying();
       musicPlay();
-}
+      }
+// 
+
+
+
+      useEffect(()=>{
+        const NextMusic=()=>{
+          props.stopRorate();
+          props.Stop_PLAYING();
+          if(nexMusic){
+            if(vtPlay!==null){
+              vtPlay++;
+              if(vtPlay>arrUrl.length-1){
+                vtPlay=0;
+              }
+             
+              setVTPlay(vtPlay);
+              show();
+              props.onPlaying();
+              musicPlay();
+            }else{
+                musicPause();
+                props.Stop_PLAYING();
+                
+            }
+          }
+        }
+        var audio = document.getElementById("audio");
+          audio.addEventListener('ended', () => {
+            NextMusic();
+          });
+      },[vtPlay])
+
 
     useMemo(()=>{
       if(randomMusic){
@@ -192,29 +288,8 @@ const Footer=(props)=>{
 
     },[randomMusic]);
 
-    useEffect(() => {
-      var audio = document.getElementById("audio");
-      audio.addEventListener('ended', () => {
 
-        NextMusic();
-      });
-    }, []);
 
-    const NextMusic=()=>{
-      props.stopRorate();
-      props.Stop_PLAYING();
-      if(nexMusic){
-        vtPlay++;
-        if(vtPlay>arrUrl.length-1){
-          vtPlay=0;
-        }
-        setVTPlay(vtPlay);
-        show();
-        props.onPlaying();
-        musicPlay();
-      }
-      
-    }
 
 
 
@@ -256,13 +331,14 @@ const Footer=(props)=>{
     }
 
     const preMusic=()=>{
-      if(arrUrl.length>0){
+      if(arrUrl.length>0&&vtPlay!==null){
         props.stopRorate();
         props.Stop_PLAYING();
         vtPlay--;
         if(vtPlay<0){
           vtPlay=arrUrl.length-1;
         }
+       
         setVTPlay(vtPlay);
         show();
         props.onPlaying();
@@ -270,13 +346,14 @@ const Footer=(props)=>{
       }
     }
     const nextMusic=()=>{
-     if(arrUrl.length>0){
+     if(arrUrl.length>0&&vtPlay!==null){
       props.stopRorate();
       props.Stop_PLAYING();
       vtPlay++;
       if(vtPlay>arrUrl.length-1){
         vtPlay=0;
       }
+     
       setVTPlay(vtPlay);
       show();
       props.onPlaying();
@@ -341,6 +418,9 @@ const dispatchToProps=(dispatch,props)=>{
     },
     onStop:()=>{
       dispatch(action.END_PLAY());
+    },
+    AddListHistory:(data)=>{
+      dispatch(action.ADD_LIST_HISTORY(data))
     }
   }
 }

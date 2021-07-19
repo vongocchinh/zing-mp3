@@ -10,9 +10,22 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import Brightness4Icon from '@material-ui/icons/Brightness4';
 import SearchIcon from '@material-ui/icons/Search';
 import Footer from '../Footer/container/Footer'
+import { ToastContainer } from 'react-toastify';
+
+  import 'react-toastify/dist/ReactToastify.css';
   const App=()=>{
     return (
       <Router>
+         <ToastContainer position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          style={{fontSize:"13px"}}
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false} />
         <div className="container">
           <div className="con-left">
           <Varbar />

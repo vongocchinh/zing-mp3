@@ -10,3 +10,6 @@ export const ON_PLAYING_URL='ON_PLAYING_URL'
 
 
 export const endPlay='endPlay';
+
+
+export const ADD_LIST_HISTIRY='ADD_LIST_HISTIRY';

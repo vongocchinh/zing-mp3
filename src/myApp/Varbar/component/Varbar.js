@@ -72,10 +72,10 @@ const Varbar=()=>{
                 <NavLink activeClassName="active" exact to="/5" className="item-row">
                   <span></span>  <span><MusicVideoIcon className="LibraryMusicIcon LibraryMusicIcon-1"/></span> <label >Bài Hát</label>
                 </NavLink>
-                <NavLink activeClassName="active" exact to="/6" className="item-row">
+                <NavLink activeClassName="active" exact to="/playlist" className="item-row">
                   <span></span>  <span><PlaylistPlayIcon className="LibraryMusicIcon LibraryMusicIcon-2"/></span> <label >Play List</label>
                 </NavLink>
-                <NavLink activeClassName="active" exact to="/7" className="item-row">
+                <NavLink activeClassName="active" exact to="/history" className="item-row">
                   <span></span>  <span><QueryBuilderIcon className="LibraryMusicIcon LibraryMusicIcon-3"/></span> <label >Gần Đây</label>
                 </NavLink>
                 

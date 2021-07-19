@@ -1,0 +1,187 @@
+// .con-vn{
+//     width: 100%;
+//     height: auto;
+//     display: flex;
+//     justify-content: space-between;
+//     flex-direction: row;
+//     margin-top: 20px;
+//     position: relative;
+//     .con-vn-left{
+//         width: 33%;
+//         height: auto;
+//         display: block;
+//         flex-direction: column;
+//         align-items: center;
+//         justify-content: center;
+//         padding: 30px;
+//         position: relative;
+//         .div{
+//             width: 22%;
+//             height: 64%;
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
+//             flex-direction: column;
+//             position: fixed;
+
+//             .img{
+//                 width: 85%;
+//                 height: 75%;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 position: relative;
+//                 overflow: hidden;  
+//                 margin-bottom: 30px;
+//                 img{
+//                     width: 95%;
+//                     height: 90%;
+//                     vertical-align: middle;
+//                     border-radius: 10px;
+//                     border-radius: 50%;
+//                 }
+//                 .img-rorate{
+//                     animation: xoayvong 7s linear 0s infinite;
+//                     -webkit-animation: xoayvong 7s linear 0s infinite;
+//                     -moz-animation: xoayvong 7s linear 0s infinite;
+//                     -o-animation: xoayvong 7s linear 0s infinite; 
+//                 }
+//                 @keyframes xoayvong {
+//                     from {
+//                         transform: rotate(0deg);
+//                     }
+//                     to{
+//                         transform: rotate(360deg);
+//                     }
+//                 }
+//                 @-webkit-keyframes xoayvong {
+//                     from {
+//                         transform: rotate(0deg);
+//                     }
+//                     to{
+//                         transform: rotate(360deg);
+//                     }
+//                 }
+//             }
+//             button{
+//                 width: 150px;
+//                 height: 40px;
+//                 cursor: pointer;
+//                 background-color: #7200A1;
+//                 color: white;
+//                 border-radius: 20px;
+//                 outline: none;
+//                 border: none;
+//                 font-size: 16px;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//             }
+//             span{
+//                 font-size: 14px;
+//                 color: white;
+//                 opacity: 0.7;
+//             }
+//             .span{
+//                 margin-top: 15px;
+//             }
+//         }
+//     }
+//     .con-vn-right{
+//         width: 67%;
+//         height: auto;
+//         padding-left: 10px;
+//         padding-right: 10px;
+//         .con-vn-right-item-music:last-child{
+//             border-bottom: none;
+//         }
+//         .con-vn-right-item-music{
+//             width: 100%;
+//             height: auto;
+//             padding: 10px;
+//             border-bottom: 1px solid rgba(255, 255, 255, 0.104);
+//             display: flex;
+//             justify-content: space-between;
+//             align-items: center;
+//             cursor: pointer;
+//             flex-direction: row;
+//             .item-left{
+//                 width: 70%;
+//                 height: 100%;
+//                 display: flex;
+//                 justify-content: space-between;
+//                 align-items: center;
+//             }
+//             .con-vn-right-item-music-check{
+//                 width: 40px;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 .MusicNoteIcon{
+//                     color: white;
+//                     margin-right: 5px;
+//                     font-size: 16px;
+//                 }
+//             }
+//             .con-vn-right-item-music-name{
+//                 width: 350px;
+//                 height: 100%;
+//                 display: flex;
+//                 justify-content: flex-start;
+//                 align-items: center;
+//                 flex-direction: row;
+//                 span{
+//                     color:  white;
+//                     font-size: 13px;
+//                     opacity: 0.7;
+//                 }
+//                 img{
+//                     width: 40px;
+//                     height: 40px;
+//                     border-radius: 5px;
+//                     margin-right: 10px;
+//                 }
+//                 div{
+//                     width: auto;
+//                     height: 100%;
+//                     display: flex;
+//                     flex-direction: column;
+//                     label{
+//                         color: white;
+//                         font-weight: 600;
+//                         font-size: 15px;
+//                     }
+//                     span{
+//                         color: white;
+//                         font-size: 12px;
+//                         opacity: .7;
+//                     }
+//                 }
+//             }
+//             .con-vn-right-item-music-time{
+//                 width: 150px;
+//                 height: 100%;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//                 span{
+//                     color: white;
+//                     font-size: 13px;
+//                     opacity: 0.7;
+//                 }
+//             }
+//             .con-vn-right-item-music-option{
+//                 width: 100px;
+//                 height: 100%;
+//                 display: flex;
+//                 justify-content: space-between;
+//                 align-items: center;
+//                 .PlayArrowIcon{
+//                     color: white;
+//                     font-size: 18px;
+//                     cursor: pointer;
+//                 }
+//             }
+//         }
+//     }
+// }

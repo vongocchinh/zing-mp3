@@ -2,3 +2,35 @@
     color: white;
     text-decoration: none;
 }
+
+.loading-div{
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        width: 30px;
+        height: 30px;
+        animation: xoayvong 5s linear 0s infinite;
+        -webkit-animation: xoayvong 7s linear 0s infinite;
+        -moz-animation: xoayvong 7s linear 0s infinite;
+        -o-animation: xoayvong 7s linear 0s infinite; 
+    }
+    @keyframes xoayvong {
+        from {
+            transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(360deg);
+        }
+    }
+    @-webkit-keyframes xoayvong {
+        from {
+            transform: rotate(0deg);
+        }
+        to{
+            transform: rotate(360deg);
+        }
+    }
+}

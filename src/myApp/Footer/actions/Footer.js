@@ -38,3 +38,11 @@ export const endPlay=()=>{
         type:types.endPlay
     }
 }
+
+
+export const ADD_LIST_HISTORY=(data)=>{
+    return {
+        type:types.ADD_LIST_HISTIRY,
+        data
+    }
+}

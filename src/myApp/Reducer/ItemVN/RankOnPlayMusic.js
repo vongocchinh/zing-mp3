@@ -3,24 +3,27 @@ import * as types from './../../TopItem/constant/topVN'
 
 var initialState={
     data:[],
-    rankOnPlay:false
+    rankOnPlay:false,
+    category:null
 }
 
 var myReducer = (state = initialState, actions) => {
     switch (actions.type) {
 
         case types.SetRankPlayListMusic:
-            if(actions.data.length> 0){
+            if(actions.data.arrs.length> 0){
                 state={
-                    data:actions.data,
-                    rankOnPlay:true
+                    data:actions.data.arrs,
+                    rankOnPlay:true,
+                    category:actions.data.id
                 }
             }
             return state;
         case types.ResetRankPlayListMusic:
             state={
                 data:[],
-                rankOnPlay:false
+                rankOnPlay:false,
+                category:null
             }
                 return state;
         

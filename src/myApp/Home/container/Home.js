@@ -27,7 +27,6 @@ const Home=()=>{
             anchorOrigin={{ vertical, horizontal }}
             open={open}
             onClose={handleClose}
-            message="I love snacks"
             key={vertical + horizontal}
         >
             <Alert onClose={handleClose} severity="info">

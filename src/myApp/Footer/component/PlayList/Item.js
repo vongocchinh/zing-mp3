@@ -21,6 +21,19 @@ function Item(props) {
     const onsTopMusic=()=>{
         props.onsTopMusic();
     }
+    const showIcon=(play,classname)=>{
+
+        if(classname){
+            if(play){
+                return <PauseCircleFilledIcon onClick={onsTopMusic} className="Icon rorate" />
+            }else{
+                return <PauseCircleFilledIcon onClick={onsTopMusic} className="Icon" />
+            }
+
+        }else{
+            return <PlayArrowIcon className="Icon"  />
+        }
+    }
     return (
         <div>
              <div className="item-con-play-list">
@@ -30,8 +43,7 @@ function Item(props) {
                         <span>{props.value?props.value.creator:''}</span>
                     </div>
                     <div className={"PlayArrowIcon "} onClick={onPlayingPlayList}>
-                        {props.classname===true?<PauseCircleFilledIcon onClick={onsTopMusic} className="Icon rorate" />: <PlayArrowIcon className="Icon"  />}
-                       
+                        {showIcon(props.play,props.classname)}
                         
                     </div >
                     
