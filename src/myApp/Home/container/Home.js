@@ -20,7 +20,7 @@ const Home=()=>{
           setTimeout(() => {
               setOpen(false);
           }, 5000);
-      },[])
+      },[1])
     return (
         <>
          <Snackbar

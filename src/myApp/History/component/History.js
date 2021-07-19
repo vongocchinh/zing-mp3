@@ -1,5 +1,5 @@
 import React, {  } from 'react';
-import His from './asset/play.jpg';
+import His from './asset/x2.jpg';
 import DeleteIcon from '@material-ui/icons/Delete';
 const History=(props)=>{
 
@@ -24,7 +24,7 @@ const History=(props)=>{
             <div className="con-vn-left">
                 <div className="div">
                     <div className="img">
-                    <img className={props.play? "img-rorate":""} alt=" " src={His} />
+                    <img className={props.play? "img-rorate":"img-play-list"} alt=" " src={His} />
                     </div>
                     {/* {props.play?<button onClick={onStop}>Tạm Dừng</button>: */}
                     {/* <button onClick={onPlaying}>Tiếp Tục Phát</button>} */}
